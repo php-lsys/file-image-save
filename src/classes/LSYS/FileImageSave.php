@@ -21,7 +21,7 @@ class FileImageSave{
      * 重写此方法 实现自定义压缩方式
      * @return ResizeHandler
      */
-    protected function get_resize_handler(){
+    protected function getResizeHandler(){
         return new \LSYS\FileImageSave\ResizeHandler\InterventionImage($this->_config);
     }
     /**
@@ -29,12 +29,12 @@ class FileImageSave{
      * @param string $file
      */
     public function remove($file){
-        $data=$this->_storage->resize_getall($this->_file_get_config,$file);
+        $data=$this->_storage->resizeGetAll($this->_file_get_config,$file);
         $filesave=\LSYS\FileSave\DI::get()->filesave($this->_file_save_config);
         if (is_array($data)){
             foreach ($data as $v) $filesave->remove($v);
         }
-        $this->_storage->resize_clear($this->_file_get_config,$file);
+        $this->_storage->resizeClear($this->_file_get_config,$file);
     }
     /**
      * 压缩指定文件并返回压缩成功的路径,失败返回false
@@ -44,7 +44,7 @@ class FileImageSave{
      */
     public function resize($file,$resize){
         $fconfig=$this->_file_get_config;
-        $rfile=$this->_storage->resize_get($fconfig,$file,$resize);
+        $rfile=$this->_storage->resizeGet($fconfig,$file,$resize);
         if ($rfile)return $rfile;
         $fileget=\LSYS\FileGet\DI::get()->fileget($fconfig);
         $lfile=$fileget->download($file);
@@ -53,11 +53,11 @@ class FileImageSave{
         $sfile=$dir."/".uniqid();
         $ext=pathinfo($lfile, PATHINFO_EXTENSION);
         if ($ext)$sfile.=".".$ext;
-        if (!$this->_resize_handler)$this->_resize_handler=$this->get_resize_handler();
+        if (!$this->_resize_handler)$this->_resize_handler=$this->getResizeHandler();
         if (!$this->_resize_handler->resize($lfile,$resize,$sfile))return false;
         $filesave=\LSYS\FileSave\DI::get()->filesave($this->_file_save_config);
         $sfile=$filesave->put($sfile);
-        $this->_storage->resize_set($fconfig,$file,$resize,$sfile);
+        $this->_storage->resizeSet($fconfig,$file,$resize,$sfile);
         return $sfile;
     }
 }

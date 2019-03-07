@@ -1,7 +1,7 @@
 <?php
 namespace LSYS\FileImageSave;
 /**
- * @method \LSYS\FileImageSave fileimagesave($config)
+ * @method \LSYS\FileImageSave fileImageSave($config)
  */
 class DI extends \LSYS\DI{
     /**
@@ -9,7 +9,7 @@ class DI extends \LSYS\DI{
      */
     public static function get(){
         $di=parent::get();
-        !isset($di->fileimagesave)&&$di->fileimagesave(new \LSYS\DI\VirtualCallback(\LSYS\FileImageSave::class));
+        !isset($di->fileImageSave)&&$di->fileImageSave(new \LSYS\DI\VirtualCallback(\LSYS\FileImageSave::class));
         return $di;
     }
 }

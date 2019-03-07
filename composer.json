@@ -2,7 +2,7 @@
 	"name" : "lsys/file-image-save",
 	"type" : "library",
 	"license": "Apache-2.0",
-	"version" : "1.0.0",
+	"version" : "2.0.0",
 	"description" : "lsys module file image save",
 	"autoload" : {
 		"psr-4" : {
@@ -10,17 +10,17 @@
 		}
 	},
 	"require" : {
-		"lsys/file-get" : "~1.0.0",
-		"lsys/file-save" : "~1.0.0",
-		"lsys/config" : "~1.0.0",
+		"lsys/file-get" : "~2.0.0",
+		"lsys/file-save" : "~2.0.0",
+		"lsys/config" : "~2.0.0",
 		"intervention/image":"2.3.8"
 	},
 	"require-dev" : {
-		"lsys/db-mysqli" : "~1.0.0",
-		"lsys/file-image-save-data-db" : "~1.0.0"
+		"lsys/db-mysqli" : "~2.0.0",
+		"lsys/file-image-save-data-db" : "~2.0.0"
 	},
 	"suggest" : {
-		"lsys/file-image-save-data-db" : "~1.0.0",
-		"lsys/file-image-save-data-mongodb" : "~1.0.0"
+		"lsys/file-image-save-data-db" : "~2.0.0",
+		"lsys/file-image-save-data-mongodb" : "~2.0.0"
 	}
 }
