@@ -22,7 +22,7 @@ class DB implements Data{
         $file=$this->_db->quote($file);
         $resize=$this->_db->quote($resize);
         $sql="SELECT `resize_file` FROM `{$table}` WHERE `file`={$file} AND `resize`={$resize}";
-        $res=$this->_db->query(\LSYS\Database::DQL, $sql);
+        $res=$this->_db->query($sql);
         return $res->get("resize_file");
     }
     public function resizeSet($file_get_config,$file,$resize,$resize_file){
@@ -37,7 +37,7 @@ class DB implements Data{
         $resize_file=$this->_db->quote($resize_file);
         $sql="INSERT INTO `{$table}` (`file`, `resize`, `resize_file`) 
             VALUES ({$file}, {$resize}, {$resize_file});";
-        RETURN $this->_db->query(\LSYS\Database::DML, $sql);
+        RETURN $this->_db->exec( $sql);
     }
     public function resizeClear($file_get_config,$file){
 		$cache=$this->_cache;
@@ -52,14 +52,14 @@ class DB implements Data{
         $cache_keys=[];
         if ($cache){
             $sql="SELECT `resize` FROM `{$table}` WHERE `file`={$file}";
-            $res=$this->_db->query(\LSYS\Database::DQL, $sql);
+            $res=$this->_db->query( $sql);
             foreach ($res as $v){
                 $cache_keys[]="image_get".$file_get_config.$file.$v['resize'];
             }
         }
         
         $sql="DELETE FROM {$table} WHERE file={$file}";
-        $this->_db->query(\LSYS\Database::DML, $sql);
+        $this->_db->exec($sql);
         if ($cache){
             foreach ($cache_keys as $key)$cache->delete($key);
         }
@@ -74,7 +74,7 @@ class DB implements Data{
         }
         $file=$this->_db->quote($file);
         $sql="SELECT `resize_file` FROM `{$table}` WHERE `file`={$file}";
-        $res=$this->_db->query(\LSYS\Database::DQL, $sql);
+        $res=$this->_db->query($sql);
         return $res->asArray("resize_file");
     }
     private function _tableCreate($table){
@@ -84,7 +84,7 @@ class DB implements Data{
 		`resize_file` varchar(255) NOT NULL,
 		PRIMARY KEY( `file`,`resize` )
 		) ENGINE=InnoDB;";
-        return $this->_db->query(\LSYS\Database::DDL, $sql);
+        return $this->_db->exec($sql);
     }
     private $_check_cache=array();
     private function _tableName($file_get_config){
