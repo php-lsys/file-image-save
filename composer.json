@@ -18,9 +18,6 @@
 		"lsys/config" : "~2.1.0",
 		"intervention/image":"2.3.8"
 	},
-	"require-dev" : {
-		"lsys/db-mysqli" : "~2.1.0"
-	},
 	"suggest" : {
 		"lsys/cache" : "~2.1.0",
 		"lsys/db" : "~2.1.0",
