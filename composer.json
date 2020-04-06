@@ -13,14 +13,14 @@
 		}
 	},
 	"require" : {
-		"lsys/file-get" : "~0.0.0",
-		"lsys/file-save" : "~0.0.0",
-		"lsys/config" : "~0.0.0",
+		"lsys/file-get" : "~0.0.1",
+		"lsys/file-save" : "~0.0.1",
+		"lsys/config" : "~0.0.1",
 		"intervention/image":"2.3.8"
 	},
 	"suggest" : {
-		"lsys/cache" : "~0.0.0",
-		"lsys/db" : "~0.0.0",
-		"lsys/mongodb" : "~0.0.0"
+		"lsys/cache" : "~0.0.1",
+		"lsys/db" : "~0.0.1",
+		"lsys/mongodb" : "~0.0.1"
 	}
 }
