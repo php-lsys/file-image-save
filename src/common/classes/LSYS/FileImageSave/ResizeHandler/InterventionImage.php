@@ -177,11 +177,16 @@ class InterventionImage implements ResizeHandler{
         
         $thisimage->resize($width, $height);
     }
-    public function resize($file,$resize,$save_file)
+    public function resize(string $file,string $resize,string $save_file)
     {
         $config=$this->_config->get($resize);
         if (empty($config['height'])&&empty($config['width']))return false;
         extract($config);
+        /**
+         * @var int $master
+         * @var int $width
+         * @var int $height
+         */
         if (!isset($master))$master=self::AUTO;
         $thisimage=$this->_image_mgr->make($file);
         $this->_resize($thisimage, $width, $height,$master);

@@ -28,13 +28,13 @@ class FileImageSave{
      * 移除指定文件的压缩成其他尺寸的图片,不包含本身
      * @param string $file
      */
-    public function remove($file){
+    public function remove(?string $file):bool{
         $data=$this->_storage->resizeGetAll($this->_file_get_config,$file);
         $filesave=\LSYS\FileSave\DI::get()->filesave($this->_file_save_config);
         if (is_array($data)){
             foreach ($data as $v) $filesave->remove($v);
         }
-        $this->_storage->resizeClear($this->_file_get_config,$file);
+        return $this->_storage->resizeClear($this->_file_get_config,$file);
     }
     /**
      * 压缩指定文件并返回压缩成功的路径,失败返回false
@@ -42,19 +42,19 @@ class FileImageSave{
      * @param string $resize
      * @return string|boolean
      */
-    public function resize($file,$resize){
+    public function resize(?string $file,?string $resize):?string{
         $fconfig=$this->_file_get_config;
         $rfile=$this->_storage->resizeGet($fconfig,$file,$resize);
         if ($rfile)return $rfile;
         $fileget=\LSYS\FileGet\DI::get()->fileget($fconfig);
         $lfile=$fileget->download($file);
-        if (!$lfile)return false;
+        if (!$lfile)return null;
         $dir=sys_get_temp_dir();
         $sfile=$dir."/".uniqid();
         $ext=pathinfo($lfile, PATHINFO_EXTENSION);
         if ($ext)$sfile.=".".$ext;
         if (!$this->_resize_handler)$this->_resize_handler=$this->getResizeHandler();
-        if (!$this->_resize_handler->resize($lfile,$resize,$sfile))return false;
+        if (!$this->_resize_handler->resize($lfile,$resize,$sfile))return null;
         $filesave=\LSYS\FileSave\DI::get()->filesave($this->_file_save_config);
         $sfile=$filesave->put($sfile);
         $this->_storage->resizeSet($fconfig,$file,$resize,$sfile);

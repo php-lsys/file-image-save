@@ -9,7 +9,7 @@ class MongoDB implements \LSYS\FileImageSave\Data {
         $monggodb=$monggodb?$monggodb:\LSYS\MongoDB\DI::get()->mongodb();
         $this->_db = $monggodb->getDatabase();
     }
-    public function resizeGet($file_get_config,$file,$resize){
+    public function resizeGet(string $file_get_config,?string $file,?string $resize):?string{
         $space=str_replace(".", '_',$file_get_config);
         $conn=$this->_db->selectCollection($space);
         $result = $conn->find([
@@ -21,7 +21,7 @@ class MongoDB implements \LSYS\FileImageSave\Data {
         RETURN $data->resize_file;
     }
     
-    public function resizeSet($file_get_config,$file,$resize,$resize_file){
+    public function resizeSet(string $file_get_config,?string $file,?string $resize,?string $resize_file):bool{
         $space=str_replace(".", '_',$file_get_config);
         $conn=$this->_db->selectCollection($space);
         $conn->deleteOne([
@@ -33,9 +33,9 @@ class MongoDB implements \LSYS\FileImageSave\Data {
             'resize' => $resize,
             'resize_file' => $resize_file,
         ]);
-        return $insertOneResult->getInsertedId();
+        return (bool)$insertOneResult->getInsertedId();
     }
-    public function resizeClear($file_get_config,$file){
+    public function resizeClear(string $file_get_config,?string $file):bool{
         $space=str_replace(".", '_',$file_get_config);
         $conn=$this->_db->selectCollection($space);
         $conn->deleteMany([
@@ -43,15 +43,14 @@ class MongoDB implements \LSYS\FileImageSave\Data {
         ]);
         return true;
     }
-    public function resizeGetAll($file_get_config,$file){
+    public function resizeGetAll(string $file_get_config,?string $file):array{
         $space=str_replace(".", '_',$file_get_config);
         $conn=$this->_db->selectCollection($space);
         $result = $conn->find([
             'file' => $file,
-            'resize' => $resize,
         ]);
         $out=[];
-        foreach ($result->toArray() as $v){
+        foreach ($result->toArray() as $data){
             $out[]=$data->resize_file;
         }
         RETURN $out;
