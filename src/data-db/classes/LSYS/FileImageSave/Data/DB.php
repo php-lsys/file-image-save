@@ -59,7 +59,7 @@ class DB implements Data{
         $file=$this->_db->getConnect()->quote($file);
         $sql="SELECT `resize_file` FROM `{$table}` WHERE `file`={$file}";
         $res=$this->_db->getSlaveConnect()->query($sql);
-        return (array)$res->asArray("resize_file");
+        return array_column($res->asArray(),"resize_file");
     }
     protected function _tableName($file_get_config,$insert=false){
         $tp=$this->_db->tablePrefix();
